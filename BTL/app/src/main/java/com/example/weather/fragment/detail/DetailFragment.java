@@ -52,7 +52,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext= context;
     }
 
     @Nullable
@@ -73,35 +73,24 @@ public class DetailFragment extends Fragment {
         String url = Constants.BASE_URL+"?key="+Constants.API_KEY+"&q="+cityName+"&days="+numberDays+"&aqi=yes&alerts=yes";
         RequestQueue requestQueue = Volley.newRequestQueue(mContext);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-
-                            JSONObject forecastObj= response.getJSONObject("forecast");
-                            JSONObject forecast0=forecastObj.getJSONArray("forecastday").getJSONObject(0);
-                            JSONArray hourArray =forecast0.getJSONArray("hour");
-                            for(int i=0;i< hourArray.length();i++)
-                            {
-                                JSONObject hourObj = hourArray.getJSONObject(i);
-                                String time = hourObj.getString("time");
-                                String temper =hourObj.getString("temp_c");
-                                String img=hourObj.getJSONObject("condition").getString("icon");
-                                list.add(new DailyForecastDetail(time,temper,img));
-                            }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                response -> {
+                    try {
+                        JSONObject forecastObj= response.getJSONObject("forecast");
+                        JSONObject forecast0=forecastObj.getJSONArray("forecastday").getJSONObject(0);
+                        JSONArray hourArray =forecast0.getJSONArray("hour");
+                        for(int i=0;i< hourArray.length();i++)
+                        {
+                            JSONObject hourObj = hourArray.getJSONObject(i);
+                            String time = hourObj.getString("time");
+                            String temper =hourObj.getString("temp_c");
+                            String img = hourObj.getJSONObject("condition").getString("icon");
+                            list.add(new DailyForecastDetail(time,temper,img));
                         }
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-
+                }, error -> error.printStackTrace());
         //adding the string request to request queue
         requestQueue.add(request);
     }

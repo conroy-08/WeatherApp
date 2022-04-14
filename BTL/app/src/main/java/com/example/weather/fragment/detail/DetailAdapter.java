@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.weather.R;
 
 import com.example.weather.model.DailyForecastDetail;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
@@ -57,7 +58,8 @@ public class DetailAdapter extends ArrayAdapter<DailyForecastDetail> {
         DailyForecastDetail weather = list.get(i);
         viewHolder.txtTime.setText(weather.getTime());
         viewHolder.txtTemp.setText(weather.getTemperature() );
-        // con icon
+       // Picasso.get().load("http:".concat(weather.getIcon())).into(viewHolder.icon);
+
         return view;
     }
 }

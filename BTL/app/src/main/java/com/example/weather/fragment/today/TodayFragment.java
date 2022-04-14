@@ -26,6 +26,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.weather.MainActivity;
 import com.example.weather.R;
 
+import com.example.weather.fragment.FragmentListener;
+import com.example.weather.fragment.settings.SettingsFragment;
+import com.example.weather.model.ForecastSetting;
 import com.example.weather.util.Constants;
 import com.example.weather.util.Utility;
 import com.squareup.picasso.Picasso;
@@ -46,6 +49,8 @@ public class TodayFragment extends Fragment {
     Unbinder unbinder;
     private  View mView;
 
+    private MainActivity mainActivity;
+
     @BindView(R.id.city) TextView mcity;
     @BindView(R.id.date) TextView date;
     @BindView(R.id.condition) TextView condition;
@@ -55,6 +60,7 @@ public class TodayFragment extends Fragment {
     @BindView(R.id.humidity_value) TextView humidity_value;
     @BindView(R.id.wind_value) TextView wind_value;
     @BindView(R.id.uv_value) TextView uv_value;
+
     private Context mContext;
 
     public TodayFragment() {
@@ -76,7 +82,14 @@ public class TodayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home,container,false);
         unbinder = ButterKnife.bind(this, mView);
+
         getJsonWeather("Hanoi","1");
+
+        mainActivity = (MainActivity) getActivity();
+        if (mainActivity.getDays() != null){
+            System.out.println(mainActivity.getDays());
+        }
+
         return  mView;
 
     }
@@ -118,5 +131,7 @@ public class TodayFragment extends Fragment {
         //adding the string request to request queue
         requestQueue.add(request);
     }
+
+
 }
 

@@ -78,7 +78,7 @@ public class WeeklyFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_weekly,container,false);
         unbinder = ButterKnife.bind(this, mView);
 
-       listView = mView.findViewById(R.id.recyclerview);
+        listView = mView.findViewById(R.id.recyclerview);
         getJsonRelative("hanoi","7");
         adapter = new WeeklyAdapter(getContext(),R.layout.weekly_items,list);
         listView.setAdapter(adapter);

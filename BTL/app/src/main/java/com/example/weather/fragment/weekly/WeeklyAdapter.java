@@ -9,12 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.weather.R;
-import com.example.weather.fragment.detail.DetailAdapter;
-import com.example.weather.model.DailyForecastDetail;
 import com.example.weather.model.WeeklyForecast;
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +49,6 @@ public class WeeklyAdapter extends ArrayAdapter<WeeklyForecast> {
             viewHolder.day = view.findViewById(R.id.day);
             viewHolder.temp = view.findViewById(R.id.temp);
             viewHolder.des = view.findViewById(R.id.desc);
-
             viewHolder.icon = view.findViewById(R.id.weather_img);
             view.setTag(viewHolder);
 
@@ -64,46 +58,9 @@ public class WeeklyAdapter extends ArrayAdapter<WeeklyForecast> {
         WeeklyForecast weather = list.get(i);
         viewHolder.temp.setText(weather.getLat() + "/"+weather.getLon());
         viewHolder.des.setText( weather.getDescription());
+        Picasso.get().load("http:".concat(weather.getIcon())).into(viewHolder.icon);
         // con icon
         return view;
     }
-    /*List<WeeklyForecast> itemList;
 
-
-    public WeeklyAdapter(List<WeeklyForecast> itemList) {
-        this.itemList = itemList;
-    }
-
-    @NonNull
-    @Override
-    public WeeklyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return  new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.weekly_items,parent,false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull WeeklyAdapter.ViewHolder holder, int position) {
-        //Picasso.get().load("http:".concat(itemList.get(position).getIcon())).into(holder.icon);
-        holder.temp.setText(itemList.get(position).getLat() + "/"+itemList.get(position).getLon());
-        holder.des.setText( itemList.get(position).getDescription());
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return itemList.size();
-    }
-
-    public  class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView icon;
-        TextView day;
-        TextView temp;
-        TextView des;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            icon = itemView.findViewById(R.id.weather_img);
-            day = itemView.findViewById(R.id.day);
-            temp = itemView.findViewById(R.id.temp);
-            des = itemView.findViewById(R.id.desc);
-        }
-    }*/
 }
