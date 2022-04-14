@@ -48,8 +48,8 @@ public class TodayFragment extends Fragment {
 
     Unbinder unbinder;
     private  View mView;
-
-    private MainActivity mainActivity;
+    private String cityName = "Hanoi";
+    private String numberDays = "7";
 
     @BindView(R.id.city) TextView mcity;
     @BindView(R.id.date) TextView date;
@@ -65,6 +65,8 @@ public class TodayFragment extends Fragment {
 
     public TodayFragment() {
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -82,14 +84,9 @@ public class TodayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home,container,false);
         unbinder = ButterKnife.bind(this, mView);
+        receiveDataFromSettings(cityName , numberDays);
 
-        getJsonWeather("Hanoi","1");
-
-        mainActivity = (MainActivity) getActivity();
-        if (mainActivity.getDays() != null){
-            System.out.println(mainActivity.getDays());
-        }
-
+        getJsonWeather(cityName,numberDays);
         return  mView;
 
     }
@@ -132,6 +129,12 @@ public class TodayFragment extends Fragment {
         requestQueue.add(request);
     }
 
+
+    public  void receiveDataFromSettings(String city , String days){
+        cityName = city;
+        numberDays = days;
+        System.out.println("this is today "+ cityName +" / "+numberDays);
+    }
 
 }
 

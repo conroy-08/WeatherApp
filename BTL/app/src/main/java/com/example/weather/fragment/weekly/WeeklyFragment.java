@@ -47,6 +47,9 @@ public class WeeklyFragment extends Fragment {
     List<WeeklyForecast> list;
     WeeklyAdapter adapter;
     ListView listView;
+    private String cityName = "Hanoi";
+    private String numberDays = "7";
+
 
     @BindView(R.id.city) TextView mcity;
     @BindView(R.id.date) TextView date;
@@ -79,7 +82,8 @@ public class WeeklyFragment extends Fragment {
         unbinder = ButterKnife.bind(this, mView);
 
         listView = mView.findViewById(R.id.recyclerview);
-        getJsonRelative("hanoi","7");
+
+        getJsonRelative(cityName,numberDays);
         adapter = new WeeklyAdapter(getContext(),R.layout.weekly_items,list);
         listView.setAdapter(adapter);
 
@@ -128,6 +132,13 @@ public class WeeklyFragment extends Fragment {
                 }, error -> error.printStackTrace());
 
         requestQueue.add(request);
+    }
+
+
+    public  void receiveDataFromSettings(String city , String days){
+        cityName = city;
+        numberDays = days;
+        System.out.println("this is weekly "+ cityName +" / "+numberDays);
     }
 
 }

@@ -38,11 +38,12 @@ public class DetailFragment extends Fragment {
 
     private  View mView;
 
-
     List<DailyForecastDetail> list;
     DetailAdapter adapter;
     ListView listView;
 
+    private String cityName = "Hanoi";
+    private String numberDays = "7";
 
     private Context mContext;
 
@@ -61,7 +62,7 @@ public class DetailFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_detail,container,false);
 
         listView = mView.findViewById(R.id.list_detail_item);
-        getJsonWeather("hanoi","1");
+        getJsonWeather(cityName,numberDays);
         adapter = new DetailAdapter(getContext(),R.layout.detail_items,list);
         listView.setAdapter(adapter);
 
@@ -74,6 +75,7 @@ public class DetailFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(mContext);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
+
                     try {
                         JSONObject forecastObj= response.getJSONObject("forecast");
                         JSONObject forecast0=forecastObj.getJSONArray("forecastday").getJSONObject(0);
@@ -95,6 +97,10 @@ public class DetailFragment extends Fragment {
         requestQueue.add(request);
     }
 
-
+    public  void receiveDataFromSettings(String city , String days){
+        cityName = city;
+        numberDays = days;
+        System.out.println("this is detail "+ cityName +" / "+numberDays);
+    }
 
 }

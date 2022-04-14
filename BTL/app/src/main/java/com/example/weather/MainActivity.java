@@ -2,6 +2,7 @@ package com.example.weather;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -10,21 +11,33 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.weather.fragment.FragmentListener;
+import com.example.weather.fragment.detail.DetailFragment;
 import com.example.weather.fragment.settings.SettingsFragment;
+import com.example.weather.fragment.today.TodayFragment;
+import com.example.weather.fragment.weekly.WeeklyFragment;
+import com.example.weather.util.Constants;
+import com.example.weather.util.Utility;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements FragmentListener {
 
     private ViewPager2 mViewPager2;
     private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
-
-    private String cityName;
-    private String days;
-
 
 
 
@@ -40,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
         mViewPager2.setAdapter(myViewPagerAdapter);
-
-
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -99,33 +110,21 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
     }
 
-    public String getCityName() {
-        return cityName;
-    }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
 
-    public String getDays() {
-        return days;
-    }
-
-    public void setDays(String days) {
-        this.days = days;
-    }
-
-    @Override
-    public String toString() {
-        return "MainActivity{" +
-                "cityName='" + cityName + '\'' +
-                ", days='" + days + '\'' +
-                '}';
-    }
 
     @Override
     public void applyTexts(String cityName, String numberDays) {
-        setDays(days);
-        setCityName(cityName);
+        TodayFragment todayFragment = new TodayFragment();
+        todayFragment.receiveDataFromSettings(cityName,numberDays);
+
+        WeeklyFragment weeklyFragment = new WeeklyFragment();
+        weeklyFragment.receiveDataFromSettings(cityName,numberDays);
+
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.receiveDataFromSettings(cityName,numberDays);
+
     }
+
+
 }
